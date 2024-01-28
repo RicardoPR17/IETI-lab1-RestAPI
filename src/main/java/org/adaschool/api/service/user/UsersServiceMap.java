@@ -1,12 +1,11 @@
 package org.adaschool.api.service.user;
 
 import org.adaschool.api.repository.user.User;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
+//@Service
 public class UsersServiceMap implements UsersService {
 
     @Override

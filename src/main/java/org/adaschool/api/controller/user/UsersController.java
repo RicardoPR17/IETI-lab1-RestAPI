@@ -1,5 +1,6 @@
 package org.adaschool.api.controller.user;
 
+import org.adaschool.api.exception.UserIDNotDetectedException;
 import org.adaschool.api.exception.UserNotFoundException;
 import org.adaschool.api.repository.user.User;
 import org.adaschool.api.service.user.UsersService;
@@ -23,9 +24,13 @@ public class UsersController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        User userAdded = usersService.save(user);
-        URI createdUserUri = URI.create("");
-        return ResponseEntity.created(createdUserUri).body(userAdded);
+        try {
+            User userAdded = usersService.save(user);
+            URI createdUserUri = URI.create(user.getId());
+            return ResponseEntity.created(createdUserUri).body(userAdded);
+        } catch (UserIDNotDetectedException e) {
+            return ResponseEntity.badRequest().body(user);
+        }
     }
 
     @GetMapping
